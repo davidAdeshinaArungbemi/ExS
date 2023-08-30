@@ -80,10 +80,10 @@ size_t ExS::choose_operator(const ExS::IntCharMap &operator_pos_map)
     return return_index;
 }
 
-std::tuple<float, float> ExS::bi_operator_operands(std::string &expr, size_t &priority_index, IntCharMap &operator_pos_map)
+std::tuple<double, double> ExS::bi_operator_operands(std::string &expr, size_t &priority_index, IntCharMap &operator_pos_map)
 {
     auto operator_itr = operator_pos_map.find(priority_index);
-    float left_val, right_val;
+    double left_val, right_val;
     if (operator_pos_map.begin() != operator_itr || std::prev(operator_pos_map.end()) != operator_itr)
     {
         size_t prev_operator_index = (*std::prev(operator_itr)).first;
@@ -99,8 +99,15 @@ std::tuple<float, float> ExS::bi_operator_operands(std::string &expr, size_t &pr
     return std::make_tuple(left_val, right_val);
 }
 
-std::string ExS::update_expression(std::string &expr, float &result, size_t sub_expr_begin_index, size_t sub_expr_end_index)
+std::string ExS::update_expression(std::string &expr, double &result, size_t sub_expr_begin_index, size_t sub_expr_end_index)
 {
+
+    std::string before_sub_expr = expr.substr(0, sub_expr_begin_index);
+    std::string after_sub_expr = expr.substr(sub_expr_end_index + 1, expr.length() - sub_expr_end_index);
+    // std::cout << before_sub_expr + std::to_string(result) + after_sub_expr << std::endl;
+    std::string string_result = std::to_string(result);
+
+    return before_sub_expr + string_result + after_sub_expr;
 }
 
 void ExS::loop(std::string &expr)
@@ -119,9 +126,10 @@ void ExS::loop(std::string &expr)
         case '^':
             try
             {
-                float left_val, right_val;
+                double left_val, right_val;
                 std::tie(left_val, right_val) = bi_operator_operands(expr, priority_index, operator_pos_map);
-                float result = powf(left_val, right_val);
+                double result = powf(left_val, right_val);
+                assert(!(std::isinf(result)) && "Result is infinity");
                 size_t begin_index = (*std::prev(operator_pos_map.find(priority_index))).first + 1;
                 size_t end_index = (*std::next(operator_pos_map.find(priority_index))).first - 1;
                 update_expression(expr, result, begin_index, end_index);
