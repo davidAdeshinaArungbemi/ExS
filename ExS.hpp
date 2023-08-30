@@ -26,7 +26,7 @@ namespace ExS
     void loop(std::string &expr);
     size_t choose_operator(const ExS::IntCharMap &operator_map);
     std::tuple<float, float> bi_operator_operands(std::string &expr, size_t &priority_index, IntCharMap &operator_pos_map);
-    std::string update_expression(std::string &expr);
+    std::string update_expression(std::string &expr, float &result, size_t sub_expr_begin_index, size_t sub_expr_end_index);
     IntCharMap verify_and_collect_pos(const std::string &expr);
 }
 #endif

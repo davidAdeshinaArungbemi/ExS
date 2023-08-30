@@ -99,6 +99,10 @@ std::tuple<float, float> ExS::bi_operator_operands(std::string &expr, size_t &pr
     return std::make_tuple(left_val, right_val);
 }
 
+std::string ExS::update_expression(std::string &expr, float &result, size_t sub_expr_begin_index, size_t sub_expr_end_index)
+{
+}
+
 void ExS::loop(std::string &expr)
 {
     if (string_a_number(expr))
@@ -118,7 +122,9 @@ void ExS::loop(std::string &expr)
                 float left_val, right_val;
                 std::tie(left_val, right_val) = bi_operator_operands(expr, priority_index, operator_pos_map);
                 float result = powf(left_val, right_val);
-                std::cout << result << std::endl;
+                size_t begin_index = (*std::prev(operator_pos_map.find(priority_index))).first + 1;
+                size_t end_index = (*std::next(operator_pos_map.find(priority_index))).first - 1;
+                update_expression(expr, result, begin_index, end_index);
             }
             catch (const std::exception &e)
             {
