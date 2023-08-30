@@ -100,7 +100,7 @@ void ExS::loop(std::string &expr)
                 // std::cout << "check";
                 auto operator_itr = operator_pos_map.find(priority_index);
                 float left_val, right_val;
-                if (operator_pos_map.begin() != operator_itr && std::prev(operator_pos_map.end()) != operator_itr)
+                if (operator_pos_map.begin() != operator_itr || std::prev(operator_pos_map.end()) != operator_itr)
                 {
                     std::cout << "check" << std::endl;
                     size_t prev_operator_index = std::distance(operator_pos_map.begin(), std::prev(operator_itr));
