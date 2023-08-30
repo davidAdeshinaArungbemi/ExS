@@ -5,6 +5,8 @@
 #include <vector>
 #include <cassert>
 #include <map>
+#include <tuple>
+#include <cmath>
 namespace ExS
 {
     std::map<char, size_t> operator_map_order = {
@@ -23,6 +25,8 @@ namespace ExS
     bool is_a_minus_or_dot(const char &character);
     void loop(std::string &expr);
     size_t choose_operator(const ExS::IntCharMap &operator_map);
+    std::tuple<double, double> bi_operator_operands(std::string &expr, size_t &priority_index, IntCharMap &operator_pos_map);
+    std::string update_expression(std::string &expr, double &result, size_t sub_expr_begin_index, size_t sub_expr_end_index);
     IntCharMap verify_and_collect_pos(const std::string &expr);
 }
 #endif
