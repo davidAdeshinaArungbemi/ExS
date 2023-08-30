@@ -89,7 +89,6 @@ void ExS::loop(std::string &expr)
     else
     {
         ExS::IntCharMap operator_pos_map = verify_and_collect_pos(expr);
-        // std::cout << "check";
         size_t priority_index = choose_operator(operator_pos_map);
         char priority_operator = operator_pos_map[priority_index];
         switch (priority_operator)
@@ -103,22 +102,20 @@ void ExS::loop(std::string &expr)
                 if (operator_pos_map.begin() != operator_itr || std::prev(operator_pos_map.end()) != operator_itr)
                 {
                     std::cout << "check" << std::endl;
-                    size_t prev_operator_index = std::distance(operator_pos_map.begin(), std::prev(operator_itr));
-                    // left_val = std::stof(expr.substr(prev_operator_index + 1, priority_index - prev_operator_index));
-                    size_t next_operator_index = std::distance(operator_pos_map.begin(), std::next(operator_itr));
-                    // right_val = std::stof(expr.substr(next_operator_index + 1, next_operator_index - priority_index - 1));
-                    std::cout << "Left operand: " << expr.substr(prev_operator_index + 1, priority_index - prev_operator_index) << std::endl;
-                    std::cout << "Right operand: " << expr.substr(next_operator_index, next_operator_index - priority_index - 1) << std::endl;
+                    size_t prev_operator_index = (*std::prev(operator_itr)).first;
+                    left_val = std::stof(expr.substr(prev_operator_index + 1, priority_index - prev_operator_index - 1));
+                    size_t next_operator_index = (*std::next(operator_itr)).first;
+                    right_val = std::stof(expr.substr(priority_index + 1, next_operator_index - priority_index - 1));
+                    std::cout << "Left operand: " << left_val << std::endl;
+                    std::cout << "Right operand: " << right_val << std::endl;
                 }
                 else
                 {
-                    // std::cout << expr.substr(0, priority_index) << std::endl;
                     left_val = std::stof(expr.substr(0, priority_index));
-                    // std::cout << expr.substr(priority_index + 1, expr.length() - priority_index - 1) << std::endl;
                     right_val = std::stof(expr.substr(priority_index + 1, expr.length() - priority_index - 1));
                 }
-                // std::cout << left_val << std::endl;
-                // std::cout << right_val << std::endl;
+                std::cout << left_val << std::endl;
+                std::cout << right_val << std::endl;
             }
             catch (const std::exception &e)
             {
