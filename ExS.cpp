@@ -80,6 +80,25 @@ size_t ExS::choose_operator(const ExS::IntCharMap &operator_pos_map)
     return return_index;
 }
 
+std::tuple<float, float> ExS::bi_operator_operands(std::string &expr, size_t &priority_index, IntCharMap &operator_pos_map)
+{
+    auto operator_itr = operator_pos_map.find(priority_index);
+    float left_val, right_val;
+    if (operator_pos_map.begin() != operator_itr || std::prev(operator_pos_map.end()) != operator_itr)
+    {
+        size_t prev_operator_index = (*std::prev(operator_itr)).first;
+        left_val = std::stof(expr.substr(prev_operator_index + 1, priority_index - prev_operator_index - 1));
+        size_t next_operator_index = (*std::next(operator_itr)).first;
+        right_val = std::stof(expr.substr(priority_index + 1, next_operator_index - priority_index - 1));
+    }
+    else
+    {
+        left_val = std::stof(expr.substr(0, priority_index));
+        right_val = std::stof(expr.substr(priority_index + 1, expr.length() - priority_index - 1));
+    }
+    return std::make_tuple(left_val, right_val);
+}
+
 void ExS::loop(std::string &expr)
 {
     if (string_a_number(expr))
@@ -96,26 +115,10 @@ void ExS::loop(std::string &expr)
         case '^':
             try
             {
-                // std::cout << "check";
-                auto operator_itr = operator_pos_map.find(priority_index);
                 float left_val, right_val;
-                if (operator_pos_map.begin() != operator_itr || std::prev(operator_pos_map.end()) != operator_itr)
-                {
-                    std::cout << "check" << std::endl;
-                    size_t prev_operator_index = (*std::prev(operator_itr)).first;
-                    left_val = std::stof(expr.substr(prev_operator_index + 1, priority_index - prev_operator_index - 1));
-                    size_t next_operator_index = (*std::next(operator_itr)).first;
-                    right_val = std::stof(expr.substr(priority_index + 1, next_operator_index - priority_index - 1));
-                    std::cout << "Left operand: " << left_val << std::endl;
-                    std::cout << "Right operand: " << right_val << std::endl;
-                }
-                else
-                {
-                    left_val = std::stof(expr.substr(0, priority_index));
-                    right_val = std::stof(expr.substr(priority_index + 1, expr.length() - priority_index - 1));
-                }
-                std::cout << left_val << std::endl;
-                std::cout << right_val << std::endl;
+                std::tie(left_val, right_val) = bi_operator_operands(expr, priority_index, operator_pos_map);
+                float result = powf(left_val, right_val);
+                std::cout << result << std::endl;
             }
             catch (const std::exception &e)
             {
