@@ -107,8 +107,8 @@ void ExS::loop(std::string &expr)
                     // left_val = std::stof(expr.substr(prev_operator_index + 1, priority_index - prev_operator_index));
                     size_t next_operator_index = std::distance(operator_pos_map.begin(), std::next(operator_itr));
                     // right_val = std::stof(expr.substr(next_operator_index + 1, next_operator_index - priority_index - 1));
-                    std::cout << "Left operand: " << expr.substr(prev_operator_index + 2, priority_index - prev_operator_index) << std::endl;
-                    std::cout << "Right operand: " << expr.substr(next_operator_index + 1, next_operator_index - priority_index - 1) << std::endl;
+                    std::cout << "Left operand: " << expr.substr(prev_operator_index + 1, priority_index - prev_operator_index) << std::endl;
+                    std::cout << "Right operand: " << expr.substr(next_operator_index, next_operator_index - priority_index - 1) << std::endl;
                 }
                 else
                 {
