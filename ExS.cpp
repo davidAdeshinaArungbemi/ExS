@@ -102,11 +102,13 @@ void ExS::loop(std::string &expr)
                 float left_val, right_val;
                 if (operator_pos_map.begin() != operator_itr && std::prev(operator_pos_map.end()) != operator_itr)
                 {
-                    std::cout << "check";
+                    std::cout << "check" << std::endl;
                     size_t prev_operator_index = std::distance(operator_pos_map.begin(), std::prev(operator_itr));
-                    left_val = std::stof(expr.substr(prev_operator_index + 1, priority_index - prev_operator_index));
+                    // left_val = std::stof(expr.substr(prev_operator_index + 1, priority_index - prev_operator_index));
                     size_t next_operator_index = std::distance(operator_pos_map.begin(), std::next(operator_itr));
-                    right_val = std::stof(expr.substr(next_operator_index, next_operator_index - priority_index));
+                    // right_val = std::stof(expr.substr(next_operator_index + 1, next_operator_index - priority_index - 1));
+                    std::cout << "Left operand: " << expr.substr(prev_operator_index + 2, priority_index - prev_operator_index) << std::endl;
+                    std::cout << "Right operand: " << expr.substr(next_operator_index + 1, next_operator_index - priority_index - 1) << std::endl;
                 }
                 else
                 {
