@@ -51,10 +51,8 @@ std::string ExS::remove_whitespace(std::string &expr)
     std::string expr_no_whitespace = "";
     for (char i : expr)
     {
-        if (i == ' ')
-            continue;
-
-        expr_no_whitespace.push_back(i);
+        if (i != ' ')
+            expr_no_whitespace.push_back(i);
     }
 
     return expr_no_whitespace;
@@ -195,17 +193,9 @@ std::string ExS::loop(std::string expr)
                 }
                 assert(opening_paren_count == closing_paren_count);
 
-                // std::cout << "Opening index: " << opening_paren_index << std::endl;
-                // std::cout << "Closing index: " << closing_paren_index << std::endl;
-
                 std::string paren_content = expr.substr(opening_paren_index + 1, closing_paren_index - opening_paren_index - 1);
                 std::string before_paren = expr.substr(0, opening_paren_index);
                 std::string after_paren = expr.substr(closing_paren_index + 1, expr.length() - closing_paren_index - 1);
-
-                std::cout << "Before paren: " << before_paren << std::endl;
-                std::cout << "After paren: " << after_paren << std::endl;
-
-                std::cout << "Result: " << before_paren + loop(paren_content) + after_paren << std::endl;
 
                 return loop(before_paren + loop(paren_content) + after_paren);
             }
@@ -273,7 +263,6 @@ int main(int, char **)
 {
     std::cout << "Enter expression: ";
     std::string expr;
-    std::cin >> expr;
-
+    std::getline(std::cin, expr);
     ExS::loop(ExS::remove_whitespace(expr));
 }
