@@ -145,7 +145,6 @@ std::string ExS::loop(std::string expr)
         }
     }
 
-    std::cout << expr << std::endl;
     if (!(string_a_number(expr)))
     {
         ExS::IntCharMap operator_pos_map = verify_and_collect_pos(expr);
@@ -259,10 +258,10 @@ std::string ExS::loop(std::string expr)
     return expr;
 }
 
-int main(int, char **)
+std::string evaluate(std::string expr)
 {
-    std::cout << "Enter expression: ";
-    std::string expr;
-    std::getline(std::cin, expr);
+    // std::cout << "Enter expression: ";
+    // std::string expr;
+    // std::getline(std::cin, expr);
     ExS::loop(ExS::remove_whitespace(expr));
 }
