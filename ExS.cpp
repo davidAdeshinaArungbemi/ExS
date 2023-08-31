@@ -119,9 +119,6 @@ std::string ExS::update_expression(std::string &expr, double &result, size_t ope
 
     before_sub_expr = expr.substr(0, begin_index);
     after_sub_expr = expr.substr(end_index + 1, expr.length() - end_index);
-    // std::cout << "Before: " << before_sub_expr << std::endl;
-    // std::cout << "After: " << after_sub_expr << std::endl;
-    // std::cout << before_sub_expr + string_result + after_sub_expr << std::endl;
 
     return before_sub_expr + string_result + after_sub_expr;
 }
@@ -162,7 +159,46 @@ std::string ExS::loop(std::string expr)
 
             break;
         case '(':
-            ////Parenthesis
+            try
+            {
+                size_t opening_paren_index = priority_index;
+                size_t closing_paren_index;
+                size_t opening_paren_count = 0;
+                size_t closing_paren_count = 0;
+                for (size_t i = 0; i < expr.length(); i++)
+                {
+                    if (expr[i] == '(')
+                        opening_paren_count++;
+
+                    else if (expr[i] == ')')
+                        closing_paren_count++;
+
+                    if (opening_paren_count == closing_paren_count && opening_paren_count != 0)
+                    {
+                        closing_paren_index = i;
+                        break;
+                    }
+                }
+                assert(opening_paren_count == closing_paren_count);
+
+                // std::cout << "Opening index: " << opening_paren_index << std::endl;
+                // std::cout << "Closing index: " << closing_paren_index << std::endl;
+
+                std::string paren_content = expr.substr(opening_paren_index + 1, closing_paren_index - opening_paren_index - 1);
+                std::string before_paren = expr.substr(0, opening_paren_index);
+                std::string after_paren = expr.substr(closing_paren_index + 1, expr.length() - closing_paren_index - 1);
+
+                std::cout << "Before paren: " << before_paren << std::endl;
+                std::cout << "After paren: " << after_paren << std::endl;
+
+                std::cout << "Result: " << before_paren + loop(paren_content) + after_paren << std::endl;
+
+                return loop(before_paren + loop(paren_content) + after_paren);
+            }
+            catch (const std::exception &e)
+            {
+                std::cerr << e.what() << '\n';
+            }
             break;
         case '+':
             try
