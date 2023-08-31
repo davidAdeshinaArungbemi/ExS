@@ -128,6 +128,15 @@ std::string ExS::update_expression(std::string &expr, double &result, size_t ope
 
 std::string ExS::loop(std::string expr)
 {
+    for (int i = 0; i < expr.length(); i++)
+    {
+        if (expr[i] == '-' && i != 0 && expr[i - 1] != '+')
+        {
+            expr.insert(i, "+");
+        }
+    }
+
+    std::cout << expr << std::endl;
     if (!(string_a_number(expr)))
     {
         ExS::IntCharMap operator_pos_map = verify_and_collect_pos(expr);
