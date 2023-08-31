@@ -102,6 +102,9 @@
         "string_view": "cpp",
         "variant": "cpp",
         "__nullptr": "cpp",
-        "__string": "cpp"
+        "__string": "cpp",
+        "*.tcc": "cpp",
+        "memory_resource": "cpp",
+        "numbers": "cpp"
     }
 }
