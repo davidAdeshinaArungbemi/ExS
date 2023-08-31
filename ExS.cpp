@@ -84,38 +84,60 @@ std::tuple<double, double> ExS::bi_operator_operands(std::string &expr, size_t &
 {
     auto operator_itr = operator_pos_map.find(priority_index);
     double left_val, right_val;
-    if (operator_pos_map.begin() != operator_itr || std::prev(operator_pos_map.end()) != operator_itr)
+    if (operator_itr == operator_pos_map.begin())
+        left_val = std::stof(expr.substr(0, priority_index));
+    else
     {
         size_t prev_operator_index = (*std::prev(operator_itr)).first;
         left_val = std::stof(expr.substr(prev_operator_index + 1, priority_index - prev_operator_index - 1));
-        size_t next_operator_index = (*std::next(operator_itr)).first;
-        right_val = std::stof(expr.substr(priority_index + 1, next_operator_index - priority_index - 1));
     }
+    if (operator_itr == std::prev(operator_pos_map.end()))
+        right_val = std::stof(expr.substr(priority_index + 1, expr.length() - priority_index - 1));
     else
     {
-        left_val = std::stof(expr.substr(0, priority_index));
-        right_val = std::stof(expr.substr(priority_index + 1, expr.length() - priority_index - 1));
+        size_t next_operator_index = (*std::next(operator_itr)).first;
+        right_val = std::stof(expr.substr(priority_index + 1, next_operator_index - priority_index - 1));
     }
     return std::make_tuple(left_val, right_val);
 }
 
 std::string ExS::update_expression(std::string &expr, double &result, size_t operator_index, IntCharMap &operator_pos_map)
 {
-    size_t begin_index = (*std::prev(operator_pos_map.find(operator_index))).first + 1;
-    size_t end_index = (*std::next(operator_pos_map.find(operator_index))).first - 1;
-    std::string before_sub_expr = expr.substr(0, begin_index);
-    std::string after_sub_expr = expr.substr(end_index + 1, expr.length() - end_index);
+    auto operator_itr = operator_pos_map.find(operator_index);
+    size_t begin_index, end_index;
+    std::string before_sub_expr, after_sub_expr;
     std::string string_result = std::to_string(result);
+    if (operator_itr == operator_pos_map.begin())
+        begin_index = 0;
+    else
+        begin_index = (*std::prev(operator_pos_map.find(operator_index))).first + 1;
+
+    if (operator_itr == std::prev(operator_pos_map.end()))
+        end_index = expr.length() - 1;
+    else
+        end_index = (*std::next(operator_pos_map.find(operator_index))).first - 1;
+
+    before_sub_expr = expr.substr(0, begin_index);
+    after_sub_expr = expr.substr(end_index + 1, expr.length() - end_index);
+    // std::cout << "Before: " << before_sub_expr << std::endl;
+    // std::cout << "After: " << after_sub_expr << std::endl;
+    // std::cout << before_sub_expr + string_result + after_sub_expr << std::endl;
+
     return before_sub_expr + string_result + after_sub_expr;
 }
 
-void ExS::loop(std::string &expr)
+std::string ExS::loop(std::string expr)
 {
-    if (string_a_number(expr))
+    for (int i = 0; i < expr.length(); i++)
     {
-        return;
+        if (expr[i] == '-' && i != 0 && expr[i - 1] != '+')
+        {
+            expr.insert(i, "+");
+        }
     }
-    else
+
+    std::cout << expr << std::endl;
+    if (!(string_a_number(expr)))
     {
         ExS::IntCharMap operator_pos_map = verify_and_collect_pos(expr);
         size_t priority_index = choose_operator(operator_pos_map);
@@ -131,8 +153,7 @@ void ExS::loop(std::string &expr)
                 double result = powf(left_val, right_val);
                 assert(!(std::isinf(result)) && "Result is infinity");
 
-                std::cout << update_expression(expr, result, priority_index, operator_pos_map);
-                std::cout << result << std::endl;
+                return loop(update_expression(expr, result, priority_index, operator_pos_map));
             }
             catch (const std::exception &e)
             {
@@ -141,16 +162,61 @@ void ExS::loop(std::string &expr)
 
             break;
         case '(':
+            ////Parenthesis
             break;
         case '+':
+            try
+            {
+                size_t begin_index, end_index;
+                double left_val, right_val;
+                std::tie(left_val, right_val) = bi_operator_operands(expr, priority_index, operator_pos_map);
+                double result = left_val + right_val;
+                assert(!(std::isinf(result)) && "Result is infinity");
+
+                return loop(update_expression(expr, result, priority_index, operator_pos_map));
+            }
+            catch (const std::exception &e)
+            {
+                std::cerr << e.what() << '\n';
+            }
             break;
         case '*':
+            try
+            {
+                size_t begin_index, end_index;
+                double left_val, right_val;
+                std::tie(left_val, right_val) = bi_operator_operands(expr, priority_index, operator_pos_map);
+                double result = left_val * right_val;
+                assert(!(std::isinf(result)) && "Result is infinity");
+
+                return loop(update_expression(expr, result, priority_index, operator_pos_map));
+            }
+            catch (const std::exception &e)
+            {
+                std::cerr << e.what() << '\n';
+            }
             break;
         case '/':
+            try
+            {
+                size_t begin_index, end_index;
+                double left_val, right_val;
+                std::tie(left_val, right_val) = bi_operator_operands(expr, priority_index, operator_pos_map);
+                double result = left_val / right_val;
+                assert(!(std::isinf(result)) && "Result is infinity");
+
+                return loop(update_expression(expr, result, priority_index, operator_pos_map));
+            }
+            catch (const std::exception &e)
+            {
+                std::cerr << e.what() << '\n';
+            }
             break;
         }
-        // loop(expr);
     }
+
+    std::cout << "Result: " << expr << std::endl;
+    return expr;
 }
 
 int main(int, char **)
