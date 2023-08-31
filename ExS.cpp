@@ -101,11 +101,32 @@ std::tuple<double, double> ExS::bi_operator_operands(std::string &expr, size_t &
 
 std::string ExS::update_expression(std::string &expr, double &result, size_t operator_index, IntCharMap &operator_pos_map)
 {
-    size_t begin_index = (*std::prev(operator_pos_map.find(operator_index))).first + 1;
-    size_t end_index = (*std::next(operator_pos_map.find(operator_index))).first - 1;
-    std::string before_sub_expr = expr.substr(0, begin_index);
-    std::string after_sub_expr = expr.substr(end_index + 1, expr.length() - end_index);
+    auto operator_itr = operator_pos_map.find(operator_index);
+    size_t begin_index, end_index;
+    std::string before_sub_expr, after_sub_expr;
+    if (operator_itr == operator_pos_map.begin())
+    {
+        begin_index = 0;
+        // before_sub_expr = expr.substr(0, begin_index);
+    }
+    else
+    {
+        begin_index = (*std::prev(operator_pos_map.find(operator_index))).first + 1;
+        // after_sub_expr = expr.substr(0, begin_index);
+    }
+    if (operator_itr == std::prev(operator_pos_map.end()))
+    {
+        end_index = expr.length() - 1;
+    }
+    else
+    {
+        end_index = (*std::next(operator_pos_map.find(operator_index))).first - 1;
+    }
+    before_sub_expr = expr.substr(0, begin_index);
+    after_sub_expr = expr.substr(end_index + 1, expr.length() - end_index);
     std::string string_result = std::to_string(result);
+
+    std::cout << before_sub_expr + string_result + after_sub_expr;
     return before_sub_expr + string_result + after_sub_expr;
 }
 
