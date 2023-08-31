@@ -4,12 +4,12 @@
 The aim of this library is to solve simple arithmetic expressions following the PEMDAS convetion
 
 #### PEMDAS 
-    ->Parenthesis
-    ->Exponentiation
-    ->Multiplication
-    ->Division
-    ->Addition
-    ->Subtraction
+    -> Parenthesis
+    -> Exponentiation
+    -> Multiplication
+    -> Division
+    -> Addition
+    -> Subtraction
 
 ## How do i use ExS?
     -> Clone the repository
