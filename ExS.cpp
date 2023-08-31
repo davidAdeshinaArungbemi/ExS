@@ -1,6 +1,6 @@
 #include "ExS.hpp"
 
-bool ExS::is_a_number(const char &character)
+bool ExS::ExS::is_a_number(const char &character)
 {
     int8_t eight_bit_int = static_cast<int8_t>(character);
     if (eight_bit_int > 47 && eight_bit_int < 58)
@@ -10,7 +10,7 @@ bool ExS::is_a_number(const char &character)
     return false;
 }
 
-bool ExS::is_an_operator(const char &character)
+bool ExS::ExS::is_an_operator(const char &character)
 {
     switch (character)
     {
@@ -26,7 +26,7 @@ bool ExS::is_an_operator(const char &character)
     }
 }
 
-bool ExS::is_a_minus_or_dot(const char &character)
+bool ExS::ExS::is_a_minus_or_dot(const char &character)
 {
     if (character == '-' || character == '.')
         return true;
@@ -34,7 +34,7 @@ bool ExS::is_a_minus_or_dot(const char &character)
     return false;
 }
 
-bool ExS::string_a_number(const std::string &expr)
+bool ExS::ExS::string_a_number(const std::string &expr)
 {
     for (size_t i = 0; i < expr.length(); i++)
     {
@@ -46,7 +46,7 @@ bool ExS::string_a_number(const std::string &expr)
     return true;
 }
 
-std::string ExS::remove_whitespace(std::string &expr)
+std::string ExS::ExS::remove_whitespace(std::string &expr)
 {
     std::string expr_no_whitespace = "";
     for (char i : expr)
@@ -58,7 +58,7 @@ std::string ExS::remove_whitespace(std::string &expr)
     return expr_no_whitespace;
 }
 
-ExS::IntCharMap ExS::verify_and_collect_pos(const std::string &expr)
+ExS::ExS::IntCharMap ExS::ExS::verify_and_collect_pos(const std::string &expr)
 {
     IntCharMap operator_map;
     for (size_t i = 0; i < expr.length(); i++)
@@ -74,7 +74,7 @@ ExS::IntCharMap ExS::verify_and_collect_pos(const std::string &expr)
     return operator_map;
 }
 
-size_t ExS::choose_operator(const ExS::IntCharMap &operator_pos_map)
+size_t ExS::ExS::choose_operator(const ExS::IntCharMap &operator_pos_map)
 {
     int priority_level = -1;
     char priority_char = '+';
@@ -92,7 +92,7 @@ size_t ExS::choose_operator(const ExS::IntCharMap &operator_pos_map)
     return return_index;
 }
 
-std::tuple<double, double> ExS::bi_operator_operands(std::string &expr, size_t &priority_index, IntCharMap &operator_pos_map)
+std::tuple<double, double> ExS::ExS::bi_operator_operands(std::string &expr, size_t &priority_index, IntCharMap &operator_pos_map)
 {
     auto operator_itr = operator_pos_map.find(priority_index);
     double left_val, right_val;
@@ -113,7 +113,7 @@ std::tuple<double, double> ExS::bi_operator_operands(std::string &expr, size_t &
     return std::make_tuple(left_val, right_val);
 }
 
-std::string ExS::update_expression(std::string &expr, double &result, size_t operator_index, IntCharMap &operator_pos_map)
+std::string ExS::ExS::update_expression(std::string &expr, double &result, size_t operator_index, IntCharMap &operator_pos_map)
 {
     auto operator_itr = operator_pos_map.find(operator_index);
     size_t begin_index, end_index;
@@ -135,7 +135,7 @@ std::string ExS::update_expression(std::string &expr, double &result, size_t ope
     return before_sub_expr + string_result + after_sub_expr;
 }
 
-std::string ExS::loop(std::string expr)
+std::string ExS::ExS::loop(std::string expr)
 {
     for (int i = 0; i < expr.length(); i++)
     {
@@ -263,5 +263,5 @@ std::string evaluate(std::string expr)
     // std::cout << "Enter expression: ";
     // std::string expr;
     // std::getline(std::cin, expr);
-    return ExS::loop(ExS::remove_whitespace(expr));
+    return ExS::ExS::loop(ExS::ExS::remove_whitespace(expr));
 }
