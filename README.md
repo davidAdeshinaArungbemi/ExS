@@ -1,7 +1,7 @@
-# ExS Library - stands for Expression-Solver Library
+# ExS Library - Expression-Solver Library
 
 ## Objective
-The aim of this library is to solve simple arithmetic expressions following the PEMDAS convetion
+The aim of this library is to solve simple arithmetic expressions following the PEMDAS convention
 
 #### PEMDAS 
     -> Parenthesis
