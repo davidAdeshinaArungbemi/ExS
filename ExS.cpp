@@ -254,7 +254,7 @@ std::string ExS::loop(std::string expr)
         }
     }
 
-    std::cout << "Result: " << expr << std::endl;
+    // std::cout << "Result: " << expr << std::endl;
     return expr;
 }
 
