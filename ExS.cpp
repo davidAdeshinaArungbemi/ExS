@@ -162,7 +162,30 @@ std::string ExS::loop(std::string expr)
 
             break;
         case '(':
-            ////Parenthesis
+            size_t opening_paren_index = priority_index;
+            size_t closing_paren_index;
+            size_t opening_paren_count = 0;
+            size_t closing_paren_count = 0;
+            for (size_t i = 0; i < expr.length(); i++)
+            {
+                if (expr[i] == '(')
+                {
+                    opening_paren_count++;
+                }
+                else if (expr[i] == ')')
+                {
+                    closing_paren_count++;
+                }
+
+                if (opening_paren_count == closing_paren_count)
+                {
+                    closing_paren_index = i;
+                    break;
+                }
+                assert(opening_paren_count == closing_paren_count);
+            }
+            std::cout << "Opening index: " << opening_paren_index << std::endl;
+            std::cout << "Closing index: " << closing_paren_index << std::endl;
             break;
         case '+':
             try
