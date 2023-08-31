@@ -23,6 +23,7 @@ namespace ExS
     bool string_a_number(const std::string &expr);
     bool is_an_operator(const char &character);
     bool is_a_minus_or_dot(const char &character);
+    std::string remove_whitespace(std::string &expr);
     std::string loop(std::string expr);
     std::string update_expression(std::string &expr, double &result, size_t operator_index, IntCharMap &operator_pos_map);
     size_t choose_operator(const ExS::IntCharMap &operator_map);

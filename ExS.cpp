@@ -46,6 +46,20 @@ bool ExS::string_a_number(const std::string &expr)
     return true;
 }
 
+std::string ExS::remove_whitespace(std::string &expr)
+{
+    std::string expr_no_whitespace = "";
+    for (char i : expr)
+    {
+        if (i == ' ')
+            continue;
+
+        expr_no_whitespace.push_back(i);
+    }
+
+    return expr_no_whitespace;
+}
+
 ExS::IntCharMap ExS::verify_and_collect_pos(const std::string &expr)
 {
     IntCharMap operator_map;
@@ -260,5 +274,6 @@ int main(int, char **)
     std::cout << "Enter expression: ";
     std::string expr;
     std::cin >> expr;
-    ExS::loop(expr);
+
+    ExS::loop(ExS::remove_whitespace(expr));
 }
