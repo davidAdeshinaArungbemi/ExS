@@ -258,10 +258,10 @@ std::string ExS::ExS::loop(std::string expr)
     return expr;
 }
 
-std::string evaluate(std::string expr)
+std::string ExS::evaluate(std::string expr)
 {
     // std::cout << "Enter expression: ";
     // std::string expr;
     // std::getline(std::cin, expr);
-    return ExS::ExS::loop(ExS::ExS::remove_whitespace(expr));
+    return ExS::loop(ExS::remove_whitespace(expr));
 }

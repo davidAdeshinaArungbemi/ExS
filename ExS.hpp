@@ -32,5 +32,7 @@ namespace ExS
         std::tuple<double, double> bi_operator_operands(std::string &expr, size_t &priority_index, IntCharMap &operator_pos_map);
         IntCharMap verify_and_collect_pos(const std::string &expr);
     }
-#endif
+    std::string evaluate(std::string expr);
 }
+
+#endif
