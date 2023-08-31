@@ -2,7 +2,8 @@
 
 ## Objective
 The aim of this library is to solve simple arithmetic expressions following the PEMDAS convetion
-  ### PEMDAS 
+
+### PEMDAS 
     ->Parenthesis
     ->Exponentiation
     ->Multiplication
@@ -11,11 +12,10 @@ The aim of this library is to solve simple arithmetic expressions following the 
     ->Subtraction
 
 ## How do i use ExS?
-Well, its very simple. 
-  -Clone the repository
-  -Include 'ExS.hpp'
-  -Call the evaluate function and pass in your expression(in std::string format) as parameter. e.g evaluate("2+3*5")
-  -The function will return the result in string format
+  -> Clone the repository
+  -> Include 'ExS.hpp'
+  -> Call the evaluate function and pass in your expression(in std::string format) as parameter. e.g evaluate("2+3*5")
+  -> The function will return the result in string format
   
 ## Operator representations
     -> '-' for minus
