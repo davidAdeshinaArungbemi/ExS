@@ -11,13 +11,6 @@ namespace ExS
 {
     namespace ExS
     {
-        std::map<char, size_t> operator_map_order = {
-            {'+', 0},
-            {'/', 1},
-            {'*', 2},
-            {'^', 3},
-            {'(', 4},
-        };
 
         typedef std::vector<size_t> PositionVector;
         typedef std::map<size_t, char> IntCharMap;
