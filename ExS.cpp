@@ -1,5 +1,13 @@
 #include "ExS.hpp"
 
+std::map<char, size_t> operator_map_order = {
+            {'+', 0},
+            {'/', 1},
+            {'*', 2},
+            {'^', 3},
+            {'(', 4},
+};
+
 bool ExS::ExS::is_a_number(const char &character)
 {
     int8_t eight_bit_int = static_cast<int8_t>(character);
